@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,12 +56,14 @@ fun WeatherSplash() {
         color = Color(0xFFEED019),
         fontSize = 60.sp,
         fontWeight = FontWeight.SemiBold,)
-    Button(onClick = {
+    Button(colors = ButtonDefaults.buttonColors(Color(0xFFEED019)),
+        onClick = {
 
-    }){
+    }, modifier = Modifier.padding(top = 100.dp)){
         Text("Get Start",
-            modifier = Modifier.padding(10.dp),
-            color = Color.White,
-            fontSize = 30.sp)
+            modifier = Modifier.padding(vertical = 7.dp, horizontal = 40.dp),
+            color = Color(0xFF2F2383),
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold)
     }
 }
