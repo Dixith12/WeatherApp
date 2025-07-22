@@ -14,7 +14,9 @@ class Repository @Inject constructor(private val api:WeatherApi){
         try {
             Log.d("repo","Repos is called")
             dataorException.loading=true
-            dataorException.data = api.getData(city)
+            dataorException.data = api.getData(
+                city = city,
+            )
             dataorException.loading=false
             Log.d("repo", dataorException.data.toString())
         }
