@@ -2,14 +2,21 @@ package com.example.weatherapp.Screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,5 +74,75 @@ fun HomeScreenContent() {
                 fontSize = 25.sp,)
         }
         DetailCard()
+    }
+}
+
+@Composable
+fun DetailCard() {
+    Card(modifier = Modifier.padding(top = 20.dp))
+    {
+        Row(modifier = Modifier.padding(vertical = 10.dp, horizontal = 23.dp),
+            verticalAlignment = Alignment.CenterVertically)
+        {
+            Column(horizontalAlignment = Alignment.CenterHorizontally)
+            {
+                Icon(painter = painterResource(id = R.drawable.wind),
+                    contentDescription = "Wind",
+                    modifier = Modifier.size(30.dp)
+                        .padding(bottom = 5.dp))
+                Text("13 km/h",
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold)
+                Text("Wind",
+                    color = Color.Black,
+                    fontSize = 16.sp,)
+
+            }
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .height(40.dp) // make it short
+                    .width(3.dp)
+                    .background(Color.Gray)
+            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally)
+            {
+                Icon(painter = painterResource(id = R.drawable.humidity),
+                    contentDescription = "Wind",
+                    modifier = Modifier.size(30.dp)
+                        .padding(bottom = 5.dp))
+                Text("13 km/h",
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold)
+                Text("Humidity",
+                    color = Color.Black,
+                    fontSize = 16.sp,)
+
+            }
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .height(40.dp) // make it short
+                    .width(3.dp)
+                    .background(Color.Gray)
+            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally)
+            {
+                Icon(painter = painterResource(id = R.drawable.material),
+                    contentDescription = "Wind",
+                    modifier = Modifier.size(30.dp)
+                        .padding(bottom = 5.dp))
+                Text("13 km/h",
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold)
+                Text("Rain",
+                    color = Color.Black,
+                    fontSize = 16.sp,)
+
+            }
+        }
     }
 }
