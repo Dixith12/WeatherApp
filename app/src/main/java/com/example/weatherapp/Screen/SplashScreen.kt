@@ -55,7 +55,7 @@ fun WeatherSplash() {
     Text("Forecast",
         color = Color(0xFFEED019),
         fontSize = 60.sp,
-        fontWeight = FontWeight.SemiBold,)
+        fontWeight = FontWeight.W400)
     Button(colors = ButtonDefaults.buttonColors(Color(0xFFEED019)),
         onClick = {
 
