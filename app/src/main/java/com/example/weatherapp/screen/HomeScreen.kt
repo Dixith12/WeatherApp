@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
 
+
+data class wether(val degree:String,
+    val image:Int,
+    val time:String)
 @Preview
 @Composable
 fun HomeScreen() {
@@ -50,12 +57,16 @@ fun HomeScreen() {
 
 @Composable
 fun HomeScreenContent() {
+    val weather = listOf(wether("22",R.drawable.weatherlogo,"10:00"),
+        wether("22",R.drawable.weatherlogo,"10:00"),
+        wether("22",R.drawable.weatherlogo,"10:00"),
+        wether("22",R.drawable.weatherlogo,"10:00"))
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth())
     {
         Image(painter = painterResource(id = R.drawable.weatherlogo),
             contentDescription = "",
-            modifier = Modifier.size(270.dp))
+            modifier = Modifier.size(290.dp))
         Text("19c",
             color = Color.White,
             fontSize = 65.sp,
@@ -76,13 +87,13 @@ fun HomeScreenContent() {
                 fontSize = 25.sp,)
         }
         DetailCard()
-        Sevendays()
-        SevenDayWeathersCard()
+        Sevendays(weather)
+        SevenDayWeathersCard(weather)
     }
 }
 
 @Composable
-fun SevenDayWeathersCard() {
+fun SevenDayWeathersCard(weather: List<wether>) {
 
 }
 
@@ -92,7 +103,7 @@ fun DetailCard() {
        .clip(RoundedCornerShape(25.dp))
         .background(brush = Brush.linearGradient(listOf(Color(0xFF2F2383),Color(0xFF443A86),Color(0xFF443A86)))))
     {
-        Row(modifier = Modifier.padding(vertical = 10.dp, horizontal = 23.dp),
+        Row(modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically)
         {
             Column(horizontalAlignment = Alignment.CenterHorizontally)
@@ -113,9 +124,9 @@ fun DetailCard() {
             }
             Box(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp)
+                    .padding(horizontal = 14.dp)
                     .height(40.dp) // make it short
-                    .width(3.dp)
+                    .width(4.dp)
                     .background(Color.Gray)
             )
             Column(horizontalAlignment = Alignment.CenterHorizontally)
@@ -136,9 +147,9 @@ fun DetailCard() {
             }
             Box(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp)
+                    .padding(horizontal = 14.dp)
                     .height(40.dp) // make it short
-                    .width(3.dp)
+                    .width(4.dp)
                     .background(Color.Gray)
             )
             Column(horizontalAlignment = Alignment.CenterHorizontally)
@@ -162,19 +173,63 @@ fun DetailCard() {
 }
 
 @Composable
-fun Sevendays()
+fun Sevendays(weather: List<wether>)
 {
     Row(horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().padding(top = 30.dp, start = 20.dp,end=20.dp, bottom = 5.dp))
+        modifier = Modifier.fillMaxWidth().padding(top = 30.dp, start = 20.dp,end=10.dp, bottom = 10.dp))
     {
         Text("Today",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White)
-        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
-            contentDescription = "ArrowBack",
-            tint=Color.White)
+        Row(verticalAlignment = Alignment.CenterVertically)
+        {
+            Text("7 Days  ",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White)
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                contentDescription = "ArrowBack",
+                tint=Color.White)
+        }
+    }
+    LazyRow(modifier = Modifier.fillMaxWidth()
+        .padding(vertical = 8.dp, horizontal = 10.dp)
+    )
+    {
+        items(weather){
+            item->
+            CardDetails(item)
+        }
     }
 
+}
+
+@Composable
+fun CardDetails(item: wether) {
+    Card(modifier = Modifier.padding(end = 5.dp)
+        .height(180.dp)
+        .width(87.dp),
+        shape = RoundedCornerShape(topEnd = 50.dp, topStart = 50.dp, bottomEnd = 50.dp, bottomStart = 50.dp)
+    )
+    {
+        Column(modifier = Modifier.padding(5.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally)
+        {
+            Text(item.degree,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 5.dp, top = 10.dp))
+            Image(painter = painterResource(id = item.image),
+                contentDescription = "Weather Image",
+                modifier = Modifier.size(85.dp)
+                    .padding(bottom = 5.dp))
+            Text(item.time,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 10.dp))
+        }
+    }
 }
