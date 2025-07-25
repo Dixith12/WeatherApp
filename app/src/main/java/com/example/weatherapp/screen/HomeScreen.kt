@@ -59,22 +59,23 @@ fun HomeScreenContent() {
     {
         Image(painter = painterResource(id = R.drawable.weatherlogo),
             contentDescription = "",
-            modifier = Modifier.size(250.dp))
+            modifier = Modifier.size(270.dp))
         Text("19c",
             color = Color.White,
-            fontSize = 60.sp,
-            fontWeight = FontWeight.Bold)
+            fontSize = 65.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 15.dp))
         Text("Precipitations",
             color = Color.White,
             fontSize = 25.sp,
-            modifier = Modifier.padding(bottom = 5.dp))
-        Row()
+            modifier = Modifier.padding(bottom = 10.dp))
+        Row(modifier = Modifier.padding(bottom = 10.dp))
         {
-            Text("Max:24",
+            Text("Max: 24",
                 color = Color.White,
                 fontSize = 25.sp,
                 modifier = Modifier.padding(end=15.dp))
-            Text("Min:12",
+            Text("Min: 12",
                 color = Color.White,
                 fontSize = 25.sp,)
         }
