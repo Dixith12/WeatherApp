@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.ArrowForwardIos
 
 import androidx.compose.material3.Card
@@ -79,7 +80,13 @@ fun HomeScreenContent() {
         }
         DetailCard()
         Sevendays()
+        SevenDayWeathersCard()
     }
+}
+
+@Composable
+fun SevenDayWeathersCard() {
+
 }
 
 @Composable
@@ -162,13 +169,13 @@ fun Sevendays()
 {
     Row(horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp, horizontal = 15.dp))
+        modifier = Modifier.fillMaxWidth().padding(top = 30.dp, start = 20.dp,end=20.dp, bottom = 5.dp))
     {
         Text("Today",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White)
-        Icon(imageVector = Icons.Default.ArrowForwardIos,
+        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
             contentDescription = "ArrowBack",
             tint=Color.White)
     }
