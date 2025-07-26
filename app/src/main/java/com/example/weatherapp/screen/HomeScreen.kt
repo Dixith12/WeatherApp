@@ -209,25 +209,26 @@ fun Sevendays(weather: List<wether>)
 @Composable
 fun CardDetails(item: wether) {
     Card(modifier = Modifier.padding(end = 5.dp)
-        .height(180.dp)
+        .height(150.dp)
         .width(87.dp),
         shape = RoundedCornerShape(topEnd = 50.dp, topStart = 50.dp, bottomEnd = 50.dp, bottomStart = 50.dp)
     )
     {
-        Column(modifier = Modifier.padding(5.dp),
+        Column(modifier = Modifier.padding(vertical = 10.dp, horizontal = 5.dp)
+            .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally)
         {
             Text(item.degree,
-                fontSize = 20.sp,
+                fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 5.dp, top = 10.dp))
             Image(painter = painterResource(id = item.image),
                 contentDescription = "Weather Image",
-                modifier = Modifier.size(85.dp)
+                modifier = Modifier.size(63.dp)
                     .padding(bottom = 5.dp))
             Text(item.time,
-                fontSize = 20.sp,
+                fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 10.dp))
         }
