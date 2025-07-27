@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -52,18 +53,28 @@ fun DetailScreen() {
 
 @Composable
 fun MiddleSection() {
-    Row()
+    Row(verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth())
     {
         Image(painter = painterResource(id = R.drawable.weatherlogo),
-            contentDescription = "Weather")
+            contentDescription = "Weather",
+            modifier = Modifier.size(190.dp))
 
         Column()
         {
             Text("Tommorrow",
                 color = Color.White,
-                fontSize = 35.sp,
-                fontWeight = FontWeight.SemiBold)
-
+                fontSize = 30.sp,
+                fontWeight = FontWeight.W400)
+            //Annoted String
+            Text("20/19",
+                color = Color.White,
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Bold)
+            Text("Sunny",
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold)
         }
     }
 }
