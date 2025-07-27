@@ -37,7 +37,8 @@ import com.example.weatherapp.R
 data class wether(val degree:String,
     val image:Int,
     val time:String)
-@Preview
+
+
 @Composable
 fun HomeScreen() {
     Box(modifier= Modifier.fillMaxSize()

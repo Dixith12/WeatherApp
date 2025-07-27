@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.weatherapp.screen.HomeScreen
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import com.example.weatherapp.viewModel.Viewmodel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,17 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WeatherAppTheme {
-                Preview()
+                HomeScreen()
             }
         }
     }
 }
 
-
-@Composable
-fun Preview(viewModel: Viewmodel = hiltViewModel()) {
-    LaunchedEffect(Unit){
-        Log.d("show","Launched")
-        viewModel.getData("Bangalore") }
-
-}

@@ -1,6 +1,7 @@
 package com.example.weatherapp.screen
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -23,10 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.weatherapp.R
 
 @Preview
 @Composable
@@ -41,8 +44,27 @@ fun DetailScreen() {
         Column(modifier = Modifier.fillMaxSize())
         {
             UpperSection()
+            MiddleSection()
         }
 
+    }
+}
+
+@Composable
+fun MiddleSection() {
+    Row()
+    {
+        Image(painter = painterResource(id = R.drawable.weatherlogo),
+            contentDescription = "Weather")
+
+        Column()
+        {
+            Text("Tommorrow",
+                color = Color.White,
+                fontSize = 35.sp,
+                fontWeight = FontWeight.SemiBold)
+
+        }
     }
 }
 
@@ -64,7 +86,7 @@ fun UpperSection() {
                 contentDescription = "DateRange",
                 tint = Color.White,
                 modifier = Modifier
-                    .padding(end = 5.dp)
+                    .padding(end = 10.dp)
                     .size(42.dp))
             Text("7 days",
                 color = Color.White,
