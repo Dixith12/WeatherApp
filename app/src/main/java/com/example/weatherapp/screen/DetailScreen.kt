@@ -1,17 +1,20 @@
 package com.example.weatherapp.screen
 
-import androidx.compose.foundation.BorderStroke
+
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.DateRange
@@ -23,10 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.weatherapp.R
 
 @Preview
 @Composable
@@ -38,11 +43,42 @@ fun DetailScreen() {
             )
         ))))
     {
-        Column(modifier = Modifier.fillMaxSize())
+        Column(modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally)
         {
             UpperSection()
+            MiddleSection()
+            DetailCards()
         }
 
+    }
+}
+
+@Composable
+fun MiddleSection() {
+    Row(verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth())
+    {
+        Image(painter = painterResource(id = R.drawable.weatherlogo),
+            contentDescription = "Weather",
+            modifier = Modifier.size(190.dp))
+
+        Column()
+        {
+            Text("Tommorrow",
+                color = Color.White,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.W400)
+            //Annoted String
+            Text("20/19",
+                color = Color.White,
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Bold)
+            Text("Sunny",
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold)
+        }
     }
 }
 
@@ -64,12 +100,87 @@ fun UpperSection() {
                 contentDescription = "DateRange",
                 tint = Color.White,
                 modifier = Modifier
-                    .padding(end = 5.dp)
+                    .padding(end = 10.dp)
                     .size(42.dp))
             Text("7 days",
                 color = Color.White,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+fun DetailCards() {
+    Box(modifier = Modifier.padding(top = 20.dp)
+        .clip(RoundedCornerShape(25.dp))
+        .background(brush = Brush.linearGradient(listOf(Color(0xFF2F2383),Color(0xFF443A86),Color(0xFF443A86)))))
+    {
+        Row(modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically)
+        {
+            Column(horizontalAlignment = Alignment.CenterHorizontally)
+            {
+                Icon(painter = painterResource(id = R.drawable.wind),
+                    contentDescription = "Wind",
+                    modifier = Modifier.size(30.dp)
+                        .padding(bottom = 5.dp),
+                    tint = Color.White)
+                Text("13 km/h",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold)
+                Text("Wind",
+                    color = Color.White,
+                    fontSize = 16.sp,)
+
+            }
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 14.dp)
+                    .height(40.dp) // make it short
+                    .width(4.dp)
+                    .background(Color.Gray)
+            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally)
+            {
+                Icon(painter = painterResource(id = R.drawable.humidity),
+                    contentDescription = "Wind",
+                    modifier = Modifier.size(30.dp)
+                        .padding(bottom = 5.dp),
+                    tint = Color.White)
+                Text("13 km/h",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold)
+                Text("Humidity",
+                    color = Color.White,
+                    fontSize = 16.sp,)
+
+            }
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 14.dp)
+                    .height(40.dp) // make it short
+                    .width(4.dp)
+                    .background(Color.Gray)
+            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally)
+            {
+                Icon(painter = painterResource(id = R.drawable.material),
+                    contentDescription = "Wind",
+                    modifier = Modifier.size(30.dp)
+                        .padding(bottom = 5.dp),
+                    tint = Color.White)
+                Text("13 km/h",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold)
+                Text("Rain",
+                    color = Color.White,
+                    fontSize = 16.sp,)
+
+            }
         }
     }
 }

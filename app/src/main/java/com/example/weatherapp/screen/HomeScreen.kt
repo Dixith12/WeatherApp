@@ -37,6 +37,7 @@ import com.example.weatherapp.R
 data class wether(val degree:String,
     val image:Int,
     val time:String)
+
 @Preview
 @Composable
 fun HomeScreen() {
@@ -88,13 +89,7 @@ fun HomeScreenContent() {
         }
         DetailCard()
         Sevendays(weather)
-        SevenDayWeathersCard(weather)
     }
-}
-
-@Composable
-fun SevenDayWeathersCard(weather: List<wether>) {
-
 }
 
 @Composable
