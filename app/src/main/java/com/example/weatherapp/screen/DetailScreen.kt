@@ -27,7 +27,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,7 +52,25 @@ fun DetailScreen() {
             UpperSection()
             MiddleSection()
             DetailCards()
+            WeekCard()
         }
+
+    }
+}
+
+@Composable
+fun WeekCard() {
+    val n=6
+    for(i in 0..n)
+    {
+        RowCard()
+    }
+}
+
+@Composable
+fun RowCard() {
+    Row()
+    {
 
     }
 }
@@ -70,10 +91,14 @@ fun MiddleSection() {
                 fontSize = 30.sp,
                 fontWeight = FontWeight.W400)
             //Annoted String
-            Text("20/19",
-                color = Color.White,
-                fontSize = 48.sp,
-                fontWeight = FontWeight.Bold)
+            Text(buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.White, fontSize = 70.sp, fontWeight = FontWeight.Bold)){
+                    append("20")
+                }
+                withStyle(style = SpanStyle(color = Color.Gray, fontSize = 45.sp, fontWeight = FontWeight.Bold)){
+                    append("/20")
+                }
+            })
             Text("Sunny",
                 color = Color.White,
                 fontSize = 20.sp,
@@ -85,12 +110,12 @@ fun MiddleSection() {
 @Composable
 fun UpperSection() {
     Row(modifier = Modifier.fillMaxWidth()
-        .padding(vertical = 10.dp, horizontal = 10.dp),
+        .padding(vertical = 15.dp, horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically)
     {
         Icon(imageVector = Icons.AutoMirrored.Default.ArrowBackIos,
                 contentDescription = "IconsBack",
-                modifier = Modifier.size(45.dp).border(width = 2.dp, color = Color.Gray, shape = CircleShape)
+                modifier = Modifier.size(45.dp)
                     .padding(top = 10.dp, bottom = 10.dp, start = 13.dp, end = 8.dp),
                 tint = Color.White)
         Row(verticalAlignment = Alignment.CenterVertically,
