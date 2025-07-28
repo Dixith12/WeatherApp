@@ -77,7 +77,8 @@ fun RowCard() {
     {
         Text("Mon",
             color = Color.White,
-            fontWeight = FontWeight.Bold)
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp)
         Row(verticalAlignment = Alignment.CenterVertically)
         {
             Image(painter = painterResource(id = R.drawable.weatherlogo),
@@ -85,11 +86,13 @@ fun RowCard() {
                 modifier = Modifier.size(70.dp))
             Text("Rainy",
                 color = Color.White,
-                fontWeight = FontWeight.Bold)
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp)
         }
         Text("+20+14",
             color = Color.White,
-            fontWeight = FontWeight.Bold)
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp)
     }
 }
 
@@ -155,7 +158,7 @@ fun UpperSection() {
 
 @Composable
 fun DetailCards() {
-    Box(modifier = Modifier.padding(top = 20.dp)
+    Box(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
         .clip(RoundedCornerShape(25.dp))
         .background(brush = Brush.linearGradient(listOf(Color(0xFF2F2383),Color(0xFF443A86),Color(0xFF443A86)))))
     {
