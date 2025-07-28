@@ -4,6 +4,7 @@ package com.example.weatherapp.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -69,9 +70,26 @@ fun WeekCard() {
 
 @Composable
 fun RowCard() {
-    Row()
+    Row(verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 15.dp))
     {
-
+        Text("Mon",
+            color = Color.White,
+            fontWeight = FontWeight.Bold)
+        Row(verticalAlignment = Alignment.CenterVertically)
+        {
+            Image(painter = painterResource(id = R.drawable.weatherlogo),
+                contentDescription = "Image",
+                modifier = Modifier.size(70.dp))
+            Text("Rainy",
+                color = Color.White,
+                fontWeight = FontWeight.Bold)
+        }
+        Text("+20+14",
+            color = Color.White,
+            fontWeight = FontWeight.Bold)
     }
 }
 
