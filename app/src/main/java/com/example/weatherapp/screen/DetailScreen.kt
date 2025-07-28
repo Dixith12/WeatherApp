@@ -73,7 +73,7 @@ fun RowCard() {
     Row(verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth()
-            .padding(horizontal = 15.dp))
+            .padding(horizontal = 28.dp))
     {
         Text("Mon",
             color = Color.White,
@@ -89,7 +89,7 @@ fun RowCard() {
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp)
         }
-        Text("+20+14",
+        Text("+20° +14°",
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp)
@@ -103,9 +103,9 @@ fun MiddleSection() {
     {
         Image(painter = painterResource(id = R.drawable.weatherlogo),
             contentDescription = "Weather",
-            modifier = Modifier.size(190.dp))
+            modifier = Modifier.size(210.dp))
 
-        Column()
+        Column(modifier = Modifier.fillMaxWidth())
         {
             Text("Tommorrow",
                 color = Color.White,
@@ -117,12 +117,12 @@ fun MiddleSection() {
                     append("20")
                 }
                 withStyle(style = SpanStyle(color = Color.Gray, fontSize = 45.sp, fontWeight = FontWeight.Bold)){
-                    append("/20")
+                    append("/20°")
                 }
             })
             Text("Sunny",
                 color = Color.White,
-                fontSize = 20.sp,
+                fontSize = 25.sp,
                 fontWeight = FontWeight.Bold)
         }
     }
