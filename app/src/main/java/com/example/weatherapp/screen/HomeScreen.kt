@@ -2,6 +2,8 @@ package com.example.weatherapp.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,13 +16,25 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.weatherapp.R
+import com.example.weatherapp.navigation.Screens
 
 
 data class wether(val degree:String,
@@ -43,6 +58,7 @@ data class wether(val degree:String,
 @Composable
 fun HomeScreen() {
     Box(modifier= Modifier.fillMaxSize()
+        .verticalScroll(rememberScrollState())
         .background(brush = Brush.linearGradient(listOf(
             Color(0xFF2F2383), Color(0xFF443A86), Color(
             0xFFBF4FD7
@@ -53,7 +69,6 @@ fun HomeScreen() {
         {
            HomeScreenContent()
         }
-
     }
 }
 
@@ -66,12 +81,41 @@ fun HomeScreenContent() {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth())
     {
+        var search by remember {
+            mutableStateOf("")
+        }
+        Row(horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+                .padding(top = 0.dp, start = 25.dp, end = 5.dp, bottom = 5.dp))
+        {
+            TextField(value = search,
+                onValueChange = {
+                    search=it
+                },
+                placeholder = {
+                    Text("Enter City....",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Gray)
+                },
+                shape = RoundedCornerShape(50.dp)
+            )
+            Button(onClick ={
+
+            },
+                colors = ButtonDefaults.buttonColors(Color.Transparent)){
+                Icon(imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "Search",
+                    tint = Color.White,
+                    modifier = Modifier.size(120.dp))
+            }
+        }
         Image(painter = painterResource(id = R.drawable.weatherlogo),
             contentDescription = "",
-            modifier = Modifier.size(290.dp))
+            modifier = Modifier.size(270.dp))
         Text("19c",
             color = Color.White,
-            fontSize = 65.sp,
+            fontSize = 60.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 15.dp))
         Text("Precipitations",
@@ -169,7 +213,7 @@ fun DetailCard() {
 }
 
 @Composable
-fun Sevendays(weather: List<wether>)
+fun Sevendays(weather: List<wether>, )
 {
     Row(horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -179,7 +223,10 @@ fun Sevendays(weather: List<wether>)
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White)
-        Row(verticalAlignment = Alignment.CenterVertically)
+        Row(verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable {
+               // navController.navigate(Screens.DetailScreen.route)
+            })
         {
             Text("7 Days  ",
                 fontSize = 16.sp,
@@ -207,7 +254,8 @@ fun CardDetails(item: wether) {
     Card(modifier = Modifier.padding(end = 5.dp)
         .height(150.dp)
         .width(87.dp),
-        shape = RoundedCornerShape(topEnd = 50.dp, topStart = 50.dp, bottomEnd = 50.dp, bottomStart = 50.dp)
+        shape = RoundedCornerShape(topEnd = 50.dp, topStart = 50.dp, bottomEnd = 50.dp, bottomStart = 50.dp),
+        colors = CardDefaults.cardColors(Color.White)
     )
     {
         Column(modifier = Modifier.padding(vertical = 10.dp, horizontal = 5.dp)
