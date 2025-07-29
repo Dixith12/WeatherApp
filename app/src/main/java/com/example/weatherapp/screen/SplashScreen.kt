@@ -21,11 +21,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.weatherapp.R
+import com.example.weatherapp.navigation.Screens
 
 @Preview
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navController: NavHostController) {
     Box(modifier=Modifier.fillMaxSize()
     .background(brush = Brush.linearGradient(listOf(Color(0xFF2F2383),Color(0xFF443A86),Color(
         0xFFBF4FD7
@@ -36,14 +38,14 @@ fun SplashScreen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally)
         {
-            WeatherSplash()
+            WeatherSplash(navController)
         }
 
     }
 }
 
 @Composable
-fun WeatherSplash() {
+fun WeatherSplash(navController: NavHostController) {
     Image(painter = painterResource(id = R.drawable.weatherlogo),
         contentDescription = "",
         modifier = Modifier.size(380.dp))
@@ -57,7 +59,7 @@ fun WeatherSplash() {
         fontWeight = FontWeight.W400)
     Button(colors = ButtonDefaults.buttonColors(Color(0xFFEED019)),
         onClick = {
-
+                navController.navigate(Screens.HomeScreen.route)
     }, modifier = Modifier.padding(top = 100.dp)){
         Text("Get Start",
             modifier = Modifier.padding(vertical = 7.dp, horizontal = 40.dp),
