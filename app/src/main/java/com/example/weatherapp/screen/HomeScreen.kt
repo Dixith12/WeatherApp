@@ -21,7 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -41,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -84,31 +87,31 @@ fun HomeScreenContent() {
         var search by remember {
             mutableStateOf("")
         }
-        Row(horizontalArrangement = Arrangement.SpaceBetween,
+        Row(modifier = Modifier.fillMaxWidth()
+            .padding(start = 15.dp, top = 15.dp, end = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-                .padding(top = 0.dp, start = 25.dp, end = 5.dp, bottom = 5.dp))
+            horizontalArrangement = Arrangement.SpaceBetween)
         {
-            TextField(value = search,
-                onValueChange = {
-                    search=it
-                },
-                placeholder = {
-                    Text("Enter City....",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Gray)
-                },
-                shape = RoundedCornerShape(50.dp)
-            )
-            Button(onClick ={
+            Icon(imageVector = Icons.Default.Add,
+                contentDescription = "Add",
+                tint = Color.White,
+                modifier = Modifier.size(40.dp))
 
-            },
-                colors = ButtonDefaults.buttonColors(Color.Transparent)){
-                Icon(imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Search",
-                    tint = Color.White,
-                    modifier = Modifier.size(120.dp))
+            Row(verticalAlignment = Alignment.CenterVertically)
+            {
+                Icon(imageVector = Icons.Default.LocationOn,
+                    contentDescription = "Location",
+                    tint = Color.White)
+                Text("London",
+                    color = Color.White,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold)
             }
+            Icon(imageVector = Icons.Default.FavoriteBorder,
+                contentDescription = "Add",
+                tint = Color.White,
+                modifier = Modifier.size(40.dp))
+
         }
         Image(painter = painterResource(id = R.drawable.weatherlogo),
             contentDescription = "",
