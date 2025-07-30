@@ -102,7 +102,7 @@ fun HomeScreenContent() {
                 Icon(imageVector = Icons.Default.LocationOn,
                     contentDescription = "Location",
                     tint = Color.White)
-                Text("London",
+                Text(" London",
                     color = Color.White,
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold)
