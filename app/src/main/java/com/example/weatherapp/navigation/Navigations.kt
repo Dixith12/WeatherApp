@@ -18,7 +18,7 @@ fun Navigation()
             SplashScreen(navController)
         }
         composable(Screens.HomeScreen.route) {
-            HomeScreen(navController)
+            HomeScreen()
         }
         composable(Screens.DetailScreen.route) {
             DetailScreen(navController)
