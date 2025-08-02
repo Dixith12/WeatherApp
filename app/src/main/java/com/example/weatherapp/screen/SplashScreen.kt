@@ -25,7 +25,6 @@ import androidx.navigation.NavHostController
 import com.example.weatherapp.R
 import com.example.weatherapp.navigation.Screens
 
-@Preview
 @Composable
 fun SplashScreen(navController: NavHostController) {
     Box(modifier=Modifier.fillMaxSize()
