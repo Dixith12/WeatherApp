@@ -21,7 +21,7 @@ fun Navigation()
             HomeScreen()
         }
         composable(Screens.DetailScreen.route) {
-            DetailScreen(navController)
+            DetailScreen()
         }
     }
 }

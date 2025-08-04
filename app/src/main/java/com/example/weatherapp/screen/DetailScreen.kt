@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.DateRange
@@ -38,7 +40,7 @@ import com.example.weatherapp.R
 
 @Preview
 @Composable
-fun DetailScreen(navController: NavHostController) {
+fun DetailScreen() {
     Box(modifier= Modifier.fillMaxSize()
         .background(brush = Brush.linearGradient(listOf(
             Color(0xFF2F2383), Color(0xFF443A86), Color(
@@ -46,7 +48,9 @@ fun DetailScreen(navController: NavHostController) {
             )
         ))))
     {
-        Column(modifier = Modifier.fillMaxSize(),
+
+        Column(modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally)
         {
             UpperSection()

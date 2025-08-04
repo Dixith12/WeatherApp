@@ -68,7 +68,8 @@ fun HomeScreen() {
         )
         ))))
     {
-        Column(modifier = Modifier.fillMaxSize())
+        Column(modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState()))
         {
            HomeScreenContent()
         }
@@ -84,11 +85,9 @@ fun HomeScreenContent() {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth())
     {
-        var search by remember {
-            mutableStateOf("")
-        }
+
         Row(modifier = Modifier.fillMaxWidth()
-            .padding(start = 15.dp, top = 15.dp, end = 15.dp),
+            .padding(start = 15.dp, top = 20.dp, end = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween)
         {
