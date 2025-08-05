@@ -76,7 +76,7 @@ fun FavoriteContent(listofFav: List<Fav>) {
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = Modifier.padding(start = 10.dp, top = 15.dp, bottom = 10.dp))
+            modifier = Modifier.padding(start = 10.dp, top = 15.dp, bottom = 15.dp))
         listofFav.forEach{ item ->
 
             ContainCard(item)
@@ -88,7 +88,8 @@ fun FavoriteContent(listofFav: List<Fav>) {
 @Composable
 fun ContainCard(fav: Fav) {
     Card(modifier = Modifier.fillMaxWidth()
-        .padding(horizontal = 10.dp, vertical = 5.dp))
+        .padding(horizontal = 10.dp, vertical = 5.dp),
+        )
     {
         Row(horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
