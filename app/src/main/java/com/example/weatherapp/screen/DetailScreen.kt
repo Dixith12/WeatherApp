@@ -143,7 +143,7 @@ fun UpperSection() {
                     .padding(top = 10.dp, bottom = 10.dp, start = 13.dp, end = 8.dp),
                 tint = Color.White)
         Row(verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(start = 70.dp))
+            modifier = Modifier.padding(start = 80.dp))
         {
             Icon(imageVector = Icons.Default.DateRange,
                 contentDescription = "DateRange",
