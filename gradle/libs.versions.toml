@@ -16,6 +16,7 @@ hiltNavigationCompose = "1.2.0"
 retrofit = "2.11.0"
 coil = "2.6.0"
 navigationCompose = "2.8.9"
+roomRuntime = "2.6.1"
 
 
 [libraries]
@@ -34,6 +35,11 @@ gson-converter = { module = "com.squareup.retrofit2:converter-gson", version.ref
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 # Navigation
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+#Room
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
