@@ -43,8 +43,8 @@ import com.example.weatherapp.R
 fun DetailScreen() {
     Box(modifier= Modifier.fillMaxSize()
         .background(brush = Brush.linearGradient(listOf(
-            Color(0xFF2F2383), Color(0xFF443A86), Color(
-                0xFFBF4FD7
+            Color(0xFF2F2453), Color(0xFF478A86), Color(
+                0xFFBF6FD7
             )
         ))))
     {
