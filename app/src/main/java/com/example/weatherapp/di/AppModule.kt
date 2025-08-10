@@ -1,10 +1,15 @@
 package com.example.weatherapp.di
 
+import android.content.Context
+import androidx.room.Room
 import com.example.weatherapp.network.WeatherApi
 import com.example.weatherapp.repository.Repository
+import com.example.weatherapp.room.WeatherDao
+import com.example.weatherapp.room.WeatherDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -34,4 +39,13 @@ object AppModule {
     @Singleton
     fun provideRepository(api: WeatherApi)= Repository(api)
 
+    @Singleton
+    @Provides
+    fun provideWeatherDatabase(weatherDatabase: WeatherDatabase):WeatherDao
+    = weatherDatabase.weatherDao()
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(@ApplicationContext context: Context):WeatherDatabase
+    = Room.databaseBuilder(context,WeatherDatabase::class.java,"weather_database").fallbackToDestructiveMigration().build()
 }
