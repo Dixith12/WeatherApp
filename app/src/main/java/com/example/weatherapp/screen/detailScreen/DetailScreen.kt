@@ -1,4 +1,4 @@
-package com.example.weatherapp.screen
+package com.example.weatherapp.screen.detailScreen
 
 
 import androidx.compose.foundation.Image
@@ -35,7 +35,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.weatherapp.R
 
 @Preview

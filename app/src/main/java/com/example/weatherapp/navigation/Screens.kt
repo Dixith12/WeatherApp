@@ -7,5 +7,4 @@ sealed class Screens(val route:String) {
     {
         fun passCity(city:String):String = "DetailScreen/$city"
     }
-
 }
