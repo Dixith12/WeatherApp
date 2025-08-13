@@ -28,6 +28,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,8 +39,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.weatherapp.R
-
+import com.example.weatherapp.model.Current
+import com.example.weatherapp.screen.uiState.UiState
+import com.example.weatherapp.viewModel.Viewmodel
 
 
 data class wether(val degree:String,
@@ -48,7 +53,9 @@ data class wether(val degree:String,
 
 @Preview
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: Viewmodel = hiltViewModel()) {
+
+    val data = viewModel.UiState.collectAsStateWithLifecycle()
     Box(modifier= Modifier.fillMaxSize()
         .verticalScroll(rememberScrollState())
         .background(brush = Brush.linearGradient(listOf(
@@ -60,19 +67,22 @@ fun HomeScreen() {
         Column(modifier = Modifier.fillMaxSize()
             .verticalScroll(rememberScrollState()))
         {
-           HomeScreenContent()
+           HomeScreenContent(data)
         }
     }
 }
 
 @Composable
-fun HomeScreenContent() {
+fun HomeScreenContent(data: State<UiState>) {
     val weather = listOf(
         wether("22",R.drawable.weatherlogo,"10:00"),
         wether("22",R.drawable.weatherlogo,"10:00"),
         wether("22",R.drawable.weatherlogo,"10:00"),
         wether("22",R.drawable.weatherlogo,"10:00")
     )
+    val current = data.value.data?.current
+    val forecast = data.value.data?.forecast
+    val location = data.value.data?.location
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth())
     {
@@ -92,10 +102,12 @@ fun HomeScreenContent() {
                 Icon(imageVector = Icons.Default.LocationOn,
                     contentDescription = "Location",
                     tint = Color.White)
-                Text(" London",
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold)
+                if (location != null) {
+                    Text(location.name,
+                        color = Color.White,
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold)
+                }
             }
             Icon(imageVector = Icons.Default.FavoriteBorder,
                 contentDescription = "Add",
@@ -106,11 +118,13 @@ fun HomeScreenContent() {
         Image(painter = painterResource(id = R.drawable.weatherlogo),
             contentDescription = "",
             modifier = Modifier.size(270.dp))
-        Text("19c",
-            color = Color.White,
-            fontSize = 60.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 15.dp))
+        if (current != null) {
+            Text("${current.temp_c}°",
+                color = Color.White,
+                fontSize = 60.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 15.dp))
+        }
         Text("Precipitations",
             color = Color.White,
             fontSize = 25.sp,
@@ -125,13 +139,13 @@ fun HomeScreenContent() {
                 color = Color.White,
                 fontSize = 25.sp,)
         }
-        DetailCard()
+        DetailCard(current)
         Sevendays(weather)
     }
 }
 
 @Composable
-fun DetailCard() {
+fun DetailCard(current: Current?) {
    Box(modifier = Modifier.padding(top = 20.dp)
        .clip(RoundedCornerShape(25.dp))
         .background(brush = Brush.linearGradient(listOf(Color(0xFF2F2383),Color(0xFF443A86),Color(0xFF443A86)))))
@@ -146,10 +160,12 @@ fun DetailCard() {
                     modifier = Modifier.size(30.dp)
                         .padding(bottom = 5.dp),
                     tint = Color.White)
-                Text("13 km/h",
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold)
+                if (current != null) {
+                    Text("${current.wind_kph} km/h",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold)
+                }
                 Text("Wind",
                     color = Color.White,
                     fontSize = 16.sp,)
