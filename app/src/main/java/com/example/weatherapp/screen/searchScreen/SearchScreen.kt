@@ -1,4 +1,4 @@
-package com.example.weatherapp.screen
+package com.example.weatherapp.screen.searchScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,7 +45,8 @@ data class Fav(
 @Preview
 @Composable
 fun SearchScreen(){
-    val listofFav = listOf(Fav("22","24","12","London"),
+    val listofFav = listOf(
+        Fav("22","24","12","London"),
         Fav("22","24","12","London"),
         Fav("22","24","12","London"),)
     Box(modifier= Modifier.fillMaxSize()
