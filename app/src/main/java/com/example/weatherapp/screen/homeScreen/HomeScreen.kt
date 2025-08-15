@@ -41,8 +41,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.R
 import com.example.weatherapp.model.Current
+import com.example.weatherapp.model.Hour
 import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 
@@ -140,7 +143,9 @@ fun HomeScreenContent(data: State<UiState>) {
                 fontSize = 25.sp,)
         }
         DetailCard(current)
-        Sevendays(weather)
+        if (forecast != null) {
+            Sevendays(forecast.forecastday[0].hour)
+        }
     }
 }
 
@@ -185,7 +190,7 @@ fun DetailCard(current: Current?) {
                     modifier = Modifier.size(30.dp)
                         .padding(bottom = 5.dp),
                     tint = Color.White)
-                Text("13 km/h",
+                Text("${current?.humidity} %",
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold)
@@ -208,10 +213,12 @@ fun DetailCard(current: Current?) {
                     modifier = Modifier.size(30.dp)
                         .padding(bottom = 5.dp),
                     tint = Color.White)
-                Text("13 km/h",
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold)
+                if (current != null) {
+                    Text("${current.precip_mm} mm",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold)
+                }
                 Text("Rain",
                     color = Color.White,
                     fontSize = 16.sp,)
@@ -222,7 +229,7 @@ fun DetailCard(current: Current?) {
 }
 
 @Composable
-fun Sevendays(weather: List<wether>, )
+fun Sevendays(weather: List<Hour>)
 {
     Row(horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -259,7 +266,7 @@ fun Sevendays(weather: List<wether>, )
 }
 
 @Composable
-fun CardDetails(item: wether) {
+fun CardDetails(item: Hour) {
     Card(modifier = Modifier.padding(end = 5.dp)
         .height(150.dp)
         .width(87.dp),
@@ -272,11 +279,11 @@ fun CardDetails(item: wether) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally)
         {
-            Text(item.degree,
+            Text(item.temp_c.toString(),
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 5.dp, top = 10.dp))
-            Image(painter = painterResource(id = item.image),
+            AsyncImage(model = item.condition.icon,
                 contentDescription = "Weather Image",
                 modifier = Modifier.size(63.dp)
                     .padding(bottom = 5.dp))
