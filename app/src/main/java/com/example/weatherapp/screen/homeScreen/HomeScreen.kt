@@ -50,10 +50,6 @@ import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 
 
-data class wether(val degree:String,
-    val image:Int,
-    val time:String)
-
 @Preview
 @Composable
 fun HomeScreen(viewModel: Viewmodel = hiltViewModel()) {
@@ -77,12 +73,6 @@ fun HomeScreen(viewModel: Viewmodel = hiltViewModel()) {
 
 @Composable
 fun HomeScreenContent(data: State<UiState>) {
-    val weather = listOf(
-        wether("22",R.drawable.weatherlogo,"10:00"),
-        wether("22",R.drawable.weatherlogo,"10:00"),
-        wether("22",R.drawable.weatherlogo,"10:00"),
-        wether("22",R.drawable.weatherlogo,"10:00")
-    )
     val current = data.value.data?.current
     val forecast = data.value.data?.forecast
     val location = data.value.data?.location
