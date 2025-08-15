@@ -273,11 +273,11 @@ fun CardDetails(item: Hour) {
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 5.dp, top = 10.dp))
-            AsyncImage(model = item.condition.icon,
+            AsyncImage(model="https:" + (item.condition.icon ?: ""),
                 contentDescription = "Weather Image",
                 modifier = Modifier.size(63.dp)
                     .padding(bottom = 5.dp))
-            Text(item.time,
+            Text(item.time.substringAfter(" ").substringBefore(":"),
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 10.dp))
