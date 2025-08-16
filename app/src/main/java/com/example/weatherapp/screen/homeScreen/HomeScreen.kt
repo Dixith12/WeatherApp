@@ -63,13 +63,18 @@ fun HomeScreen(navController: NavController,viewModel: Viewmodel = hiltViewModel
         )
         ))))
     {
-        Column(modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center)
+        Column(modifier = Modifier.fillMaxSize())
         {
+
             if(data.value.loading)
             {
-                CircularProgressIndicator()
+                Column(modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally)
+                {
+                    CircularProgressIndicator(strokeWidth = 2.dp,
+                        color = Color.White)
+                }
             }
             else
             {
@@ -89,7 +94,7 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
     {
 
         Row(modifier = Modifier.fillMaxWidth()
-            .padding(start = 15.dp, top = 20.dp, end = 15.dp),
+            .padding(start = 15.dp, top = 50.dp, end = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween)
         {
