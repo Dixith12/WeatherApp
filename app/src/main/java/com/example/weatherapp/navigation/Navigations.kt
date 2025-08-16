@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.screen.detailScreen.DetailScreen
 import com.example.weatherapp.screen.homeScreen.HomeScreen
 import com.example.weatherapp.screen.SplashScreen
+import com.example.weatherapp.screen.searchScreen.SearchScreen
 
 @Composable
 fun Navigation()
@@ -18,10 +19,13 @@ fun Navigation()
             SplashScreen(navController)
         }
         composable(Screens.HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(navController)
         }
         composable(Screens.DetailScreen.route) {
             DetailScreen()
+        }
+        composable(Screens.SearchScreen.route) {
+            SearchScreen()
         }
     }
 }

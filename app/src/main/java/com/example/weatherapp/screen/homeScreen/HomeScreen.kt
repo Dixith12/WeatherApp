@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,18 +42,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.R
 import com.example.weatherapp.model.Current
 import com.example.weatherapp.model.Hour
+import com.example.weatherapp.navigation.Screens
 import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 
-
-@Preview
 @Composable
-fun HomeScreen(viewModel: Viewmodel = hiltViewModel()) {
+fun HomeScreen(navController: NavController,viewModel: Viewmodel = hiltViewModel()) {
 
     val data = viewModel.UiState.collectAsStateWithLifecycle()
     Box(modifier= Modifier.fillMaxSize()
@@ -63,16 +63,24 @@ fun HomeScreen(viewModel: Viewmodel = hiltViewModel()) {
         )
         ))))
     {
-        Column(modifier = Modifier.fillMaxSize()
-            .verticalScroll(rememberScrollState()))
+        Column(modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center)
         {
-           HomeScreenContent(data)
+            if(data.value.loading)
+            {
+                CircularProgressIndicator()
+            }
+            else
+            {
+                HomeScreenContent(data,navController)
+            }
         }
     }
 }
 
 @Composable
-fun HomeScreenContent(data: State<UiState>) {
+fun HomeScreenContent(data: State<UiState>, navController: NavController) {
     val current = data.value.data?.current
     val forecast = data.value.data?.forecast
     val location = data.value.data?.location
@@ -88,7 +96,10 @@ fun HomeScreenContent(data: State<UiState>) {
             Icon(imageVector = Icons.Default.Add,
                 contentDescription = "Add",
                 tint = Color.White,
-                modifier = Modifier.size(40.dp))
+                modifier = Modifier.size(40.dp)
+                    .clickable {
+                        navController.navigate(Screens.SearchScreen.route)
+                    })
 
             Row(verticalAlignment = Alignment.CenterVertically)
             {
