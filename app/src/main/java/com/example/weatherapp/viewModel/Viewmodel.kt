@@ -18,6 +18,11 @@ class Viewmodel @Inject constructor(private val repository: Repository): ViewMod
 
     private val _uiState = MutableStateFlow(UiState())
     val UiState : StateFlow<UiState> = _uiState
+
+    private val currentcity="London"
+    init {
+        getData(currentcity)
+    }
     fun getData(city:String)
     {
         viewModelScope.launch {
