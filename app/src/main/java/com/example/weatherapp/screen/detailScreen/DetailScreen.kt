@@ -1,6 +1,7 @@
 package com.example.weatherapp.screen.detailScreen
 
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,9 +20,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,11 +38,24 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.example.weatherapp.R
+import com.example.weatherapp.screen.homeScreen.HomeScreenContent
+import com.example.weatherapp.viewModel.Viewmodel
 
-@Preview
 @Composable
-fun DetailScreen() {
+fun DetailScreen(navController: NavHostController, city: String?,
+                 viewmodel: Viewmodel= hiltViewModel()
+) {
+
+    LaunchedEffect(Unit){
+        if (city != null) {
+            viewmodel.getData(city)
+        }
+    }
+    val data = viewmodel.UiState.collectAsStateWithLifecycle()
     Box(modifier= Modifier.fillMaxSize()
         .background(brush = Brush.linearGradient(listOf(
             Color(0xFF2F2383), Color(0xFF443A86), Color(
@@ -48,14 +64,41 @@ fun DetailScreen() {
         ))))
     {
 
-        Column(modifier = Modifier.fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally)
-        {
-            UpperSection()
-            MiddleSection()
-            DetailCards()
-            WeekCard()
+        when{
+            data.value.loading->{
+                Column(modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally)
+                {
+                    CircularProgressIndicator(strokeWidth = 2.dp,
+                        color = Color.White)
+                }
+            }
+            data.value.data==null->
+            {
+                Column(modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally)
+                {
+                    Text("No Data Found",
+                        color= Color.White,
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold)
+                }
+
+            }
+            else ->
+            {
+                Column(modifier = Modifier.fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally)
+                {
+                    UpperSection()
+                    MiddleSection()
+                    DetailCards()
+                    WeekCard()
+                }
+            }
         }
 
     }

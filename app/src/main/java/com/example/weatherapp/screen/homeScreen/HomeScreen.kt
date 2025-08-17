@@ -37,7 +37,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,6 +46,7 @@ import coil.compose.AsyncImage
 import com.example.weatherapp.R
 import com.example.weatherapp.model.Current
 import com.example.weatherapp.model.Hour
+import com.example.weatherapp.model.Location
 import com.example.weatherapp.navigation.Screens
 import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
@@ -104,6 +104,7 @@ fun HomeScreen(navController: NavController,viewModel: Viewmodel = hiltViewModel
 
 @Composable
 fun HomeScreenContent(data: State<UiState>, navController: NavController) {
+    val city = data.value.data?.location
     val current = data.value.data?.current
     val forecast = data.value.data?.forecast
     val location = data.value.data?.location
@@ -173,7 +174,7 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
         }
         DetailCard(current)
         if (forecast != null) {
-            Sevendays(forecast.forecastday[0].hour)
+            Sevendays(forecast.forecastday[0].hour,navController,city)
         }
     }
 }
@@ -258,7 +259,7 @@ fun DetailCard(current: Current?) {
 }
 
 @Composable
-fun Sevendays(weather: List<Hour>)
+fun Sevendays(weather: List<Hour>, navController: NavController, city: Location?)
 {
     Row(horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -270,7 +271,7 @@ fun Sevendays(weather: List<Hour>)
             color = Color.White)
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
-               // navController.navigate(Screens.DetailScreen.route)
+              navController.navigate(Screens.DetailScreen.passCity(city = city.toString()))
             })
         {
             Text("7 Days  ",
@@ -308,7 +309,7 @@ fun CardDetails(item: Hour) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally)
         {
-            Text(item.temp_c.toString(),
+            Text("${item.temp_c}°",
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 5.dp, top = 10.dp))

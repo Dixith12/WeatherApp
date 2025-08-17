@@ -19,7 +19,7 @@ class Viewmodel @Inject constructor(private val repository: Repository): ViewMod
     private val _uiState = MutableStateFlow(UiState())
     val UiState : StateFlow<UiState> = _uiState
 
-    private val currentcity = "London"
+    private var currentcity = "London"
 
     init {
         getData(currentcity)
@@ -29,8 +29,8 @@ class Viewmodel @Inject constructor(private val repository: Repository): ViewMod
     {
         viewModelScope.launch {
             _uiState.update { it.copy(loading = true, error = null) }
-
-            val res = repository.getData(city) // DataorException<WeatherData, Boolean, Exception>
+            currentcity=city
+            val res = repository.getData(currentcity) // DataorException<WeatherData, Boolean, Exception>
             _uiState.update {
                 it.copy(
                     data = res.data,
