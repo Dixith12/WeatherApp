@@ -46,15 +46,11 @@ import com.example.weatherapp.screen.homeScreen.HomeScreenContent
 import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
-fun DetailScreen(navController: NavHostController, city: String?,
+fun DetailScreen(navController: NavHostController,
+                 city: String?,
                  viewmodel: Viewmodel= hiltViewModel()
 ) {
 
-    LaunchedEffect(Unit){
-        if (city != null) {
-            viewmodel.getData(city)
-        }
-    }
     val data = viewmodel.UiState.collectAsStateWithLifecycle()
     Box(modifier= Modifier.fillMaxSize()
         .background(brush = Brush.linearGradient(listOf(

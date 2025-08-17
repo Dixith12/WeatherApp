@@ -56,7 +56,6 @@ fun HomeScreen(navController: NavController,viewModel: Viewmodel = hiltViewModel
 
     val data = viewModel.UiState.collectAsStateWithLifecycle()
 
-
     Box(modifier= Modifier.fillMaxSize()
         .background(brush = Brush.linearGradient(listOf(
             Color(0xFF2F2383), Color(0xFF443A86), Color(
