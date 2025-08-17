@@ -55,6 +55,8 @@ import com.example.weatherapp.viewModel.Viewmodel
 fun HomeScreen(navController: NavController,viewModel: Viewmodel = hiltViewModel()) {
 
     val data = viewModel.UiState.collectAsStateWithLifecycle()
+
+
     Box(modifier= Modifier.fillMaxSize()
         .background(brush = Brush.linearGradient(listOf(
             Color(0xFF2F2383), Color(0xFF443A86), Color(
@@ -105,6 +107,11 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
     val current = data.value.data?.current
     val forecast = data.value.data?.forecast
     val location = data.value.data?.location
+
+    val hours = data.value.data?.forecast?.forecastday?.firstOrNull()?.hour.orEmpty()
+
+    val minPrecip = hours.minOfOrNull { it.precip_mm } ?: 0.0
+    val maxPrecip = hours.maxOfOrNull { it.precip_mm } ?: 0.0
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth())
     {
@@ -156,11 +163,11 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
             modifier = Modifier.padding(bottom = 10.dp))
         Row(modifier = Modifier.padding(bottom = 10.dp))
         {
-            Text("Max: 24",
+            Text("Max: ${"%.1f".format(maxPrecip)} mm",
                 color = Color.White,
                 fontSize = 25.sp,
                 modifier = Modifier.padding(end=15.dp))
-            Text("Min: 12",
+            Text("Min: ${"%.1f".format(minPrecip)} mm",
                 color = Color.White,
                 fontSize = 25.sp,)
         }
