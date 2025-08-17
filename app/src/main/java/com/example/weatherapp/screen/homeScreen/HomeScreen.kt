@@ -56,18 +56,14 @@ fun HomeScreen(navController: NavController,viewModel: Viewmodel = hiltViewModel
 
     val data = viewModel.UiState.collectAsStateWithLifecycle()
     Box(modifier= Modifier.fillMaxSize()
-        .verticalScroll(rememberScrollState())
         .background(brush = Brush.linearGradient(listOf(
             Color(0xFF2F2383), Color(0xFF443A86), Color(
             0xFFBF4FD7
         )
         ))))
     {
-        Column(modifier = Modifier.fillMaxSize())
-        {
-
-            if(data.value.loading)
-            {
+        when{
+            data.value.loading->{
                 Column(modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally)
@@ -76,11 +72,31 @@ fun HomeScreen(navController: NavController,viewModel: Viewmodel = hiltViewModel
                         color = Color.White)
                 }
             }
-            else
+            data.value.data==null->
             {
-                HomeScreenContent(data,navController)
+                Column(modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally)
+                {
+                    Text("No Data Found",
+                        color= Color.White,
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold)
+                }
+
+            }
+            else ->
+            {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    HomeScreenContent(data, navController)
+                }
             }
         }
+
     }
 }
 
