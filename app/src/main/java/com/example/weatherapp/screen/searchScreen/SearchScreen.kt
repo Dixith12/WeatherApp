@@ -18,10 +18,12 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -90,6 +92,7 @@ fun FavoriteContent(listofFav: List<Fav>) {
 fun ContainCard(fav: Fav) {
     Card(modifier = Modifier.fillMaxWidth()
         .padding(horizontal = 10.dp, vertical = 5.dp),
+        colors = CardDefaults.cardColors(Color.White)
         )
     {
         Row(horizontalArrangement = Arrangement.SpaceBetween,
@@ -135,7 +138,7 @@ fun SearchContent() {
     Column(horizontalAlignment = Alignment.CenterHorizontally)
     {
         Row(modifier = Modifier.fillMaxWidth()
-            .padding(top = 30.dp, start = 20.dp, end = 20.dp, bottom = 15.dp))
+            .padding(top = 70.dp, start = 20.dp, end = 20.dp, bottom = 15.dp))
         {
             TextField(value = search,
                 onValueChange = {
@@ -150,7 +153,9 @@ fun SearchContent() {
                         contentDescription = "",
                         tint = Color.Black)
                 },
-                shape = RoundedCornerShape(50.dp)
+                shape = RoundedCornerShape(50.dp),
+                colors = TextFieldDefaults.colors(focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent)
             )
         }
         Button(onClick = {
