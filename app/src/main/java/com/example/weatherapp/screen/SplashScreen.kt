@@ -59,6 +59,11 @@ fun WeatherSplash(navController: NavHostController) {
     Button(colors = ButtonDefaults.buttonColors(Color(0xFFEED019)),
         onClick = {
                 navController.navigate(Screens.HomeScreen.route)
+                {
+                    popUpTo(Screens.SplashScreen.route){
+                        inclusive=true
+                    }
+                }
     }, modifier = Modifier.padding(top = 100.dp)){
         Text("Get Start",
             modifier = Modifier.padding(vertical = 7.dp, horizontal = 40.dp),

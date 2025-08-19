@@ -36,11 +36,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.weatherapp.room.Fav
+import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
 fun SearchScreen(navController: NavController,
+                 viewmodel: Viewmodel = hiltViewModel(),
                  listofFav: List<Fav>){
     Box(modifier= Modifier.fillMaxSize()
         .verticalScroll(rememberScrollState())
@@ -52,7 +55,7 @@ fun SearchScreen(navController: NavController,
     {
         Column(modifier = Modifier.fillMaxSize())
         {
-            SearchContent(navController)
+            SearchContent(navController,viewmodel)
             HorizontalDivider(modifier = Modifier.padding(top = 15.dp),
                 thickness = 2.dp,
                 color = Color.White)
@@ -122,7 +125,7 @@ fun ContainCard(item: Fav) {
 }
 
 @Composable
-fun SearchContent(navController: NavController) {
+fun SearchContent(navController: NavController, viewmodel: Viewmodel) {
     var search by remember {
         mutableStateOf("")
     }
@@ -150,6 +153,8 @@ fun SearchContent(navController: NavController) {
             )
         }
         Button(onClick = {
+            viewmodel.getData(search)
+            navController.popBackStack()
 
         },
             colors = ButtonDefaults.buttonColors(Color.White)) {
