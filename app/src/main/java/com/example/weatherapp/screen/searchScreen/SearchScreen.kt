@@ -34,23 +34,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.weatherapp.room.Fav
 
-data class Fav(
-    val degree:String,
-    val max:String,
-    val min:String,
-    val name:String
-)
-@Preview
 @Composable
-fun SearchScreen(){
-    val listofFav = listOf(
-        Fav("22","24","12","London"),
-        Fav("22","24","12","London"),
-        Fav("22","24","12","London"),)
+fun SearchScreen(navController: NavController,
+                 listofFav: List<Fav>){
     Box(modifier= Modifier.fillMaxSize()
         .verticalScroll(rememberScrollState())
         .background(brush = Brush.linearGradient(listOf(
@@ -61,18 +52,18 @@ fun SearchScreen(){
     {
         Column(modifier = Modifier.fillMaxSize())
         {
-            SearchContent()
+            SearchContent(navController)
             HorizontalDivider(modifier = Modifier.padding(top = 15.dp),
                 thickness = 2.dp,
                 color = Color.White)
 
-            FavoriteContent(listofFav)
+            FavoriteContent(listofFav,navController)
         }
     }
 }
 
 @Composable
-fun FavoriteContent(listofFav: List<Fav>) {
+fun FavoriteContent(listofFav: List<Fav>, navController: NavController) {
     Column()
     {
         Text("Favorite Cities :",
@@ -89,7 +80,7 @@ fun FavoriteContent(listofFav: List<Fav>) {
 }
 
 @Composable
-fun ContainCard(fav: Fav) {
+fun ContainCard(item: Fav) {
     Card(modifier = Modifier.fillMaxWidth()
         .padding(horizontal = 10.dp, vertical = 5.dp),
         colors = CardDefaults.cardColors(Color.White)
@@ -109,19 +100,19 @@ fun ContainCard(fav: Fav) {
                         contentDescription = "",
                         modifier = Modifier.size(25.dp))
                     Text(
-                        fav.name,
+                        item.city,
                         fontSize = 23.sp,
                         fontWeight = FontWeight.W400,
                         color = Color.Black
                     )
                 }
 
-                    Text("Max: ${fav.max}/Min: ${fav.min}",fontSize = 20.sp,
+                    Text("Max: ${item.max}/Min: ${item.min}",fontSize = 20.sp,
                         fontWeight = FontWeight.W400,
                         color = Color.Black,
                         modifier = Modifier.padding(start = 10.dp, top = 15.dp))
             }
-            Text(fav.degree,
+            Text(item.degree.toString(),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -131,7 +122,7 @@ fun ContainCard(fav: Fav) {
 }
 
 @Composable
-fun SearchContent() {
+fun SearchContent(navController: NavController) {
     var search by remember {
         mutableStateOf("")
     }
