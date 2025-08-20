@@ -29,6 +29,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,8 +53,21 @@ import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
-fun HomeScreen(navController: NavController,viewModel: Viewmodel = hiltViewModel()) {
+fun HomeScreen(navController: NavController,
+               city: String?,
+               viewModel: Viewmodel = hiltViewModel()
+) {
 
+    LaunchedEffect(Unit){
+        if(city!=null)
+        {
+            viewModel.getData(city)
+        }
+        else
+        {
+            viewModel.getData("London")
+        }
+    }
     val data = viewModel.UiState.collectAsStateWithLifecycle()
 
     Box(modifier= Modifier.fillMaxSize()
@@ -270,7 +284,7 @@ fun Sevendays(weather: List<Hour>, navController: NavController, city: Location?
             color = Color.White)
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.clickable {
-              navController.navigate(Screens.DetailScreen.passCity(city = city.toString()))
+              navController.navigate(Screens.DetailScreen.route)
             })
         {
             Text("7 Days  ",

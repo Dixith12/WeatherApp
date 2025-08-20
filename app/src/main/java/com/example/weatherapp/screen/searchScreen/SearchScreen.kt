@@ -36,15 +36,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.weatherapp.navigation.Screens
 import com.example.weatherapp.room.Fav
 import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
-fun SearchScreen(navController: NavController,
-                 viewmodel: Viewmodel = hiltViewModel(),
-                 listofFav: List<Fav>){
+fun SearchScreen(navController: NavController, vm: Viewmodel){
+    val listofFav = listOf(Fav("London",20,20,32))
     Box(modifier= Modifier.fillMaxSize()
         .verticalScroll(rememberScrollState())
         .background(brush = Brush.linearGradient(listOf(
@@ -55,7 +54,7 @@ fun SearchScreen(navController: NavController,
     {
         Column(modifier = Modifier.fillMaxSize())
         {
-            SearchContent(navController,viewmodel)
+            SearchContent(navController,vm)
             HorizontalDivider(modifier = Modifier.padding(top = 15.dp),
                 thickness = 2.dp,
                 color = Color.White)
@@ -154,8 +153,7 @@ fun SearchContent(navController: NavController, viewmodel: Viewmodel) {
         }
         Button(onClick = {
             viewmodel.getData(search)
-            navController.popBackStack()
-
+            navController.navigate(Screens.HomeScreen.route)
         },
             colors = ButtonDefaults.buttonColors(Color.White)) {
             Text("Search",

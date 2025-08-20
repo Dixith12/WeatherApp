@@ -40,14 +40,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.weatherapp.R
 import com.example.weatherapp.screen.homeScreen.HomeScreenContent
 import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
-fun DetailScreen(navController: NavHostController,
-                 city: String?,
+fun DetailScreen(navController: NavController,
                  viewmodel: Viewmodel= hiltViewModel()
 ) {
 
