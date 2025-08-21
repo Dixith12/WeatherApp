@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -114,7 +115,7 @@ fun ContainCard(item: Fav) {
                         color = Color.Black,
                         modifier = Modifier.padding(start = 10.dp, top = 15.dp))
             }
-            Text(item.degree.toString(),
+            Text("${item.degree}°c",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -138,8 +139,10 @@ fun SearchContent(navController: NavController, viewmodel: Viewmodel) {
                     search = it
                 },
                 modifier = Modifier.fillMaxWidth(),
+                textStyle = TextStyle(color = Color.Black),
                 placeholder = {
-                    Text("Enter City...")
+                    Text("Enter City...",
+                        color = Color.Black)
                 },
                 leadingIcon = {
                     Icon(imageVector = Icons.Default.Search,
@@ -148,12 +151,13 @@ fun SearchContent(navController: NavController, viewmodel: Viewmodel) {
                 },
                 shape = RoundedCornerShape(50.dp),
                 colors = TextFieldDefaults.colors(focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent)
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White)
             )
         }
         Button(onClick = {
-            viewmodel.getData(search)
-            navController.navigate(Screens.HomeScreen.route)
+            navController.navigate(Screens.HomeScreen.passCity(search))
         },
             colors = ButtonDefaults.buttonColors(Color.White)) {
             Text("Search",

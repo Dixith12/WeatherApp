@@ -1,9 +1,9 @@
 package com.example.weatherapp.screen.detailScreen
 
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,7 +24,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,15 +35,13 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.weatherapp.R
-import com.example.weatherapp.screen.homeScreen.HomeScreenContent
+import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
@@ -89,9 +87,9 @@ fun DetailScreen(navController: NavController,
                     .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally)
                 {
-                    UpperSection()
-                    MiddleSection()
-                    DetailCards()
+                    UpperSection(navController)
+                    MiddleSection(data)
+                    DetailCards(data)
                     WeekCard()
                 }
             }
@@ -138,7 +136,7 @@ fun RowCard() {
 }
 
 @Composable
-fun MiddleSection() {
+fun MiddleSection(data: State<UiState>) {
     Row(verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth())
     {
@@ -170,15 +168,18 @@ fun MiddleSection() {
 }
 
 @Composable
-fun UpperSection() {
+fun UpperSection(navController: NavController) {
     Row(modifier = Modifier.fillMaxWidth()
-        .padding(vertical = 15.dp, horizontal = 10.dp),
+        .padding(top = 30.dp, start = 10.dp, end = 10.dp, bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically)
     {
         Icon(imageVector = Icons.AutoMirrored.Default.ArrowBackIos,
                 contentDescription = "IconsBack",
                 modifier = Modifier.size(45.dp)
-                    .padding(top = 10.dp, bottom = 10.dp, start = 13.dp, end = 8.dp),
+                    .padding(top = 10.dp, bottom = 10.dp, start = 13.dp, end = 8.dp)
+                    .clickable {
+                        navController.popBackStack()
+                    },
                 tint = Color.White)
         Row(verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(start = 80.dp))
@@ -198,7 +199,8 @@ fun UpperSection() {
 }
 
 @Composable
-fun DetailCards() {
+fun DetailCards(data: State<UiState>) {
+    val current = data.value.data?.current
     Box(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
         .clip(RoundedCornerShape(25.dp))
         .background(brush = Brush.linearGradient(listOf(Color(0xFF2F2383),Color(0xFF443A86),Color(0xFF443A86)))))
@@ -213,10 +215,12 @@ fun DetailCards() {
                     modifier = Modifier.size(30.dp)
                         .padding(bottom = 5.dp),
                     tint = Color.White)
-                Text("13 km/h",
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold)
+                if (current != null) {
+                    Text("${current.wind_kph} km/h",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold)
+                }
                 Text("Wind",
                     color = Color.White,
                     fontSize = 16.sp,)
@@ -236,7 +240,7 @@ fun DetailCards() {
                     modifier = Modifier.size(30.dp)
                         .padding(bottom = 5.dp),
                     tint = Color.White)
-                Text("13 km/h",
+                Text("${current?.humidity} %",
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold)
@@ -259,10 +263,12 @@ fun DetailCards() {
                     modifier = Modifier.size(30.dp)
                         .padding(bottom = 5.dp),
                     tint = Color.White)
-                Text("13 km/h",
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold)
+                if (current != null) {
+                    Text("${current.precip_mm} mm",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold)
+                }
                 Text("Rain",
                     color = Color.White,
                     fontSize = 16.sp,)

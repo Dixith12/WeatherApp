@@ -22,11 +22,11 @@ fun Navigation()
         composable(Screens.SplashScreen.route) {
             SplashScreen(navController)
         }
-        composable(Screens.HomeScreen.route, arguments = listOf(navArgument("City"){
+        composable(Screens.HomeScreen.route, arguments = listOf(navArgument("city"){
             NavType.StringType
         })) {
             backStackEntry->
-            val city = backStackEntry.arguments?.getString("City")
+            val city = backStackEntry.arguments?.getString("city")
             HomeScreen(navController,city)
         }
         composable(Screens.DetailScreen.route)

@@ -165,7 +165,7 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
             contentDescription = "",
             modifier = Modifier.size(270.dp))
         if (current != null) {
-            Text("${current.temp_c}°",
+            Text("${current.temp_c}°c",
                 color = Color.White,
                 fontSize = 60.sp,
                 fontWeight = FontWeight.Bold,
@@ -310,6 +310,9 @@ fun Sevendays(weather: List<Hour>, navController: NavController, city: Location?
 
 @Composable
 fun CardDetails(item: Hour) {
+
+    val hour = item.time.substringAfter(" ").substringBefore(":").toInt()
+    val pros = if (hour in 12..23) "PM" else "AM"
     Card(modifier = Modifier.padding(end = 5.dp)
         .height(150.dp)
         .width(87.dp),
@@ -322,7 +325,7 @@ fun CardDetails(item: Hour) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally)
         {
-            Text("${item.temp_c}°",
+            Text("${item.temp_c}°c",
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 5.dp, top = 10.dp))
@@ -330,8 +333,8 @@ fun CardDetails(item: Hour) {
                 contentDescription = "Weather Image",
                 modifier = Modifier.size(63.dp)
                     .padding(bottom = 5.dp))
-            Text(item.time.substringAfter(" ").substringBefore(":"),
-                fontSize = 17.sp,
+            Text("${hour % 12} $pros",
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 10.dp))
         }
