@@ -37,7 +37,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(api: WeatherApi)= Repository(api)
+    fun provideRepository(api: WeatherApi,room: WeatherDao)= Repository(api,room)
 
     @Singleton
     @Provides

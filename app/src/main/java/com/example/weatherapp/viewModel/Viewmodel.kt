@@ -1,6 +1,7 @@
 package com.example.weatherapp.viewModel
 
 import android.util.Log
+import androidx.collection.emptyLongSet
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -9,6 +10,7 @@ import com.example.weatherapp.screen.uiState.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +39,22 @@ class Viewmodel @Inject constructor(private val repository: Repository): ViewMod
                     loading = false,
                     error = res.exception
                 )
+            }
+        }
+    }
+    fun getFav()
+    {
+        viewModelScope.launch {
+            repository.getFav().distinctUntilChanged().collect{
+                listofFav->
+                if(listofFav.isNullOrEmpty())
+                {
+                    Log.d("null","Null")
+                }
+                else
+                {
+
+                }
             }
         }
     }
