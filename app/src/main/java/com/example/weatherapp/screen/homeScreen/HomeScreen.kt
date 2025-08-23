@@ -161,9 +161,11 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
                 modifier = Modifier.size(40.dp))
 
         }
-        Image(painter = painterResource(id = R.drawable.weatherlogo),
-            contentDescription = "",
-            modifier = Modifier.size(270.dp))
+        if (current != null) {
+            AsyncImage(model = "https:"+(current.condition.icon?:""),
+                contentDescription = "",
+                modifier = Modifier.size(270.dp))
+        }
         if (current != null) {
             Text("${current.temp_c}°c",
                 color = Color.White,

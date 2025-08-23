@@ -47,7 +47,7 @@ class Viewmodel @Inject constructor(private val repository: Repository): ViewMod
         viewModelScope.launch {
             repository.getFav().distinctUntilChanged().collect{
                 listofFav->
-                if(listofFav.isNullOrEmpty())
+                if(listofFav.isEmpty())
                 {
                     Log.d("null","Null")
                 }
