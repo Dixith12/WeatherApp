@@ -37,6 +37,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.weatherapp.navigation.Screens
 import com.example.weatherapp.room.Fav
@@ -44,7 +45,8 @@ import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
 fun SearchScreen(navController: NavController, vm: Viewmodel){
-    val listofFav = listOf(Fav("London",20,20,32))
+
+    val data = vm.UiState.collectAsStateWithLifecycle()
     Box(modifier= Modifier.fillMaxSize()
         .verticalScroll(rememberScrollState())
         .background(brush = Brush.linearGradient(listOf(
@@ -60,13 +62,13 @@ fun SearchScreen(navController: NavController, vm: Viewmodel){
                 thickness = 2.dp,
                 color = Color.White)
 
-            FavoriteContent(listofFav,navController)
+            FavoriteContent(data.value.fav,navController)
         }
     }
 }
 
 @Composable
-fun FavoriteContent(listofFav: List<Fav>, navController: NavController) {
+fun FavoriteContent(data: List<Fav>, navController: NavController) {
     Column()
     {
         Text("Favorite Cities :",
@@ -74,8 +76,9 @@ fun FavoriteContent(listofFav: List<Fav>, navController: NavController) {
             fontWeight = FontWeight.Bold,
             color = Color.White,
             modifier = Modifier.padding(start = 10.dp, top = 15.dp, bottom = 15.dp))
-        listofFav.forEach{ item ->
 
+        data.forEach {
+                item->
             ContainCard(item)
         }
 

@@ -10,9 +10,9 @@ data class Fav(
     @ColumnInfo(name = "city")
     val city: String,
     @ColumnInfo(name= "min")
-    val min:Int,
+    val min: Double,
     @ColumnInfo(name = "max")
-    val max:Int,
+    val max: Double,
     @ColumnInfo(name = "degree")
-    val degree:Int,
+    val degree: Double,
 )

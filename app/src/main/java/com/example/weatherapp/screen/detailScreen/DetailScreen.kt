@@ -41,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.weatherapp.R
+import com.example.weatherapp.navigation.Screens
 import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 
@@ -50,6 +51,7 @@ fun DetailScreen(navController: NavController,
 ) {
 
     val data = viewmodel.UiState.collectAsStateWithLifecycle()
+    val forecast = data.value.data?.forecast?.forecastday
     Box(modifier= Modifier.fillMaxSize()
         .background(brush = Brush.linearGradient(listOf(
             Color(0xFF2F2383), Color(0xFF443A86), Color(
@@ -178,7 +180,7 @@ fun UpperSection(navController: NavController) {
                 modifier = Modifier.size(45.dp)
                     .padding(top = 10.dp, bottom = 10.dp, start = 13.dp, end = 8.dp)
                     .clickable {
-                        navController.popBackStack()
+                        navController.navigate(Screens.HomeScreen.route)
                     },
                 tint = Color.White)
         Row(verticalAlignment = Alignment.CenterVertically,

@@ -38,4 +38,9 @@ class Repository @Inject constructor(private val api:WeatherApi,
     }
 
     fun getFav(): Flow<List<Fav>> = room.getFav().flowOn(Dispatchers.IO).conflate()
+
+    suspend fun addFav(fav:Fav)
+    {
+        room.upsert(fav)
+    }
 }

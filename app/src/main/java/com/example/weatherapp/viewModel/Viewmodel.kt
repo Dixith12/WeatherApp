@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.weatherapp.repository.Repository
+import com.example.weatherapp.room.Fav
 import com.example.weatherapp.screen.uiState.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -56,6 +58,13 @@ class Viewmodel @Inject constructor(private val repository: Repository): ViewMod
 
                 }
             }
+        }
+    }
+
+    fun addFav(fav: Fav)
+    {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addFav(fav)
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.weatherapp.screen.homeScreen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
@@ -31,6 +31,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,6 +53,7 @@ import com.example.weatherapp.model.Current
 import com.example.weatherapp.model.Hour
 import com.example.weatherapp.model.Location
 import com.example.weatherapp.navigation.Screens
+import com.example.weatherapp.room.Fav
 import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 
@@ -107,7 +112,7 @@ fun HomeScreen(navController: NavController,
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                 ) {
-                    HomeScreenContent(data, navController)
+                    HomeScreenContent(data, navController,viewModel)
                 }
             }
         }
@@ -116,7 +121,7 @@ fun HomeScreen(navController: NavController,
 }
 
 @Composable
-fun HomeScreenContent(data: State<UiState>, navController: NavController) {
+fun HomeScreenContent(data: State<UiState>, navController: NavController, viewModel: Viewmodel) {
     val city = data.value.data?.location
     val current = data.value.data?.current
     val forecast = data.value.data?.forecast
@@ -124,8 +129,15 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
 
     val hours = data.value.data?.forecast?.forecastday?.firstOrNull()?.hour.orEmpty()
 
+    val rawIcon = current?.condition?.icon ?: ""
+    val highResIcon = rawIcon.replace("64x64", "128x128")
+
     val minPrecip = hours.minOfOrNull { it.precip_mm } ?: 0.0
     val maxPrecip = hours.maxOfOrNull { it.precip_mm } ?: 0.0
+
+    var favClicked by remember {
+        mutableStateOf(false)
+    }
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth())
     {
@@ -138,7 +150,7 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
             Icon(imageVector = Icons.Default.Add,
                 contentDescription = "Add",
                 tint = Color.White,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(38.dp)
                     .clickable {
                         navController.navigate(Screens.SearchScreen.route)
                     })
@@ -151,18 +163,31 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController) {
                 if (location != null) {
                     Text(location.name,
                         color = Color.White,
-                        fontSize = 30.sp,
+                        fontSize = 28.sp,
                         fontWeight = FontWeight.Bold)
                 }
             }
-            Icon(imageVector = Icons.Default.FavoriteBorder,
+            Icon(imageVector = if(favClicked)Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Add",
-                tint = Color.White,
-                modifier = Modifier.size(40.dp))
+                tint = if(favClicked)Color.Red else Color.White,
+                modifier = Modifier.size(40.dp).clickable {
+                    favClicked=!favClicked
+                    val fav = current?.let {
+                        forecast?.forecastday?.get(0)?.day?.let { it1 ->
+                            Fav(location.toString(),
+                                it1.mintemp_c,
+                                forecast.forecastday[0].day.maxtemp_c,
+                                it.temp_c)
+                        }
+                    }
+                    if (fav != null) {
+                        viewModel.addFav(fav)
+                    }
+                })
 
         }
         if (current != null) {
-            AsyncImage(model = "https:"+(current.condition.icon?:""),
+            AsyncImage(model = "https:$highResIcon",
                 contentDescription = "",
                 modifier = Modifier.size(270.dp))
         }
