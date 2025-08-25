@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,6 +46,10 @@ import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
 fun SearchScreen(navController: NavController, vm: Viewmodel){
+
+    LaunchedEffect(Unit) {
+        vm.getFav()
+    }
 
     val data = vm.UiState.collectAsStateWithLifecycle()
     Box(modifier= Modifier.fillMaxSize()
