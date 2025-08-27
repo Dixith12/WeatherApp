@@ -1,6 +1,8 @@
 package com.example.weatherapp.screen.searchScreen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -34,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -67,13 +71,13 @@ fun SearchScreen(navController: NavController, vm: Viewmodel){
                 thickness = 2.dp,
                 color = Color.White)
 
-            FavoriteContent(data.value.fav,navController)
+            FavoriteContent(data.value.fav,navController,vm)
         }
     }
 }
 
 @Composable
-fun FavoriteContent(data: List<Fav>, navController: NavController) {
+fun FavoriteContent(data: List<Fav>, navController: NavController, vm: Viewmodel) {
     Column()
     {
         Text("Favorite Cities :",
@@ -84,14 +88,47 @@ fun FavoriteContent(data: List<Fav>, navController: NavController) {
 
         data.forEach {
                 item->
-            ContainCard(item)
+            ContainCard(item,vm)
         }
 
     }
 }
 
 @Composable
-fun ContainCard(item: Fav) {
+fun ContainCard(item: Fav, vm: Viewmodel) {
+
+    var showdialog by remember {
+        mutableStateOf(false)
+    }
+    val context = LocalContext.current
+    if (showdialog) {
+        AlertDialog(
+            onDismissRequest = { showdialog = false },
+            title = { Text("Delete Favourite") },
+            text = { Text("Are you sure you want to delete this?") },
+            confirmButton = {
+                Text(
+                    "Delete",
+                    color = Color.Red,
+                    modifier = Modifier
+                        .clickable {
+
+                            showdialog = false
+                            Toast.makeText(context,"Note Removed", Toast.LENGTH_SHORT).show()
+                        }
+                        .padding(8.dp)
+                )
+            },
+            dismissButton = {
+                Text(
+                    "Cancel",
+                    modifier = Modifier
+                        .clickable { showdialog = false }
+                        .padding(8.dp)
+                )
+            }
+        )
+    }
     Card(modifier = Modifier.fillMaxWidth()
         .padding(horizontal = 10.dp, vertical = 5.dp),
         colors = CardDefaults.cardColors(Color.White)

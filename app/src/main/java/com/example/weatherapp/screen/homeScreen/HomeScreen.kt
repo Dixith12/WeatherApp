@@ -126,7 +126,8 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController, viewMo
     val current = data.value.data?.current
     val forecast = data.value.data?.forecast
     val location = data.value.data?.location
-
+    val favsList = data.value.fav
+    var isalready = favsList.any { it.city==city.toString() }
     val hours = data.value.data?.forecast?.forecastday?.firstOrNull()?.hour.orEmpty()
 
     val rawIcon = current?.condition?.icon ?: ""
@@ -134,10 +135,6 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController, viewMo
 
     val minPrecip = hours.minOfOrNull { it.precip_mm } ?: 0.0
     val maxPrecip = hours.maxOfOrNull { it.precip_mm } ?: 0.0
-
-    var favClicked by remember {
-        mutableStateOf(false)
-    }
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth())
     {
@@ -167,11 +164,11 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController, viewMo
                         fontWeight = FontWeight.Bold)
                 }
             }
-            Icon(imageVector = if(favClicked)Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+            Icon(imageVector = if(isalready)Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Add",
-                tint = if(favClicked)Color.Red else Color.White,
+                tint = if(isalready)Color.Red else Color.White,
                 modifier = Modifier.size(40.dp).clickable {
-                    favClicked=!favClicked
+                    isalready=!isalready
                     val fav = current?.let {
                         forecast?.forecastday?.get(0)?.day?.let { it1 ->
                             Fav(location.toString(),

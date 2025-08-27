@@ -55,7 +55,10 @@ class Viewmodel @Inject constructor(private val repository: Repository): ViewMod
                 }
                 else
                 {
-
+                    _uiState.update { it.copy(loading = true, error = null) }
+                    _uiState.update {
+                        it.copy(loading = false, fav = listofFav)
+                    }
                 }
             }
         }
