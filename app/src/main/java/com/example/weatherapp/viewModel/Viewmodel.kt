@@ -34,7 +34,7 @@ class Viewmodel @Inject constructor(private val repository: Repository): ViewMod
         viewModelScope.launch {
             _uiState.update { it.copy(loading = true, error = null) }
             currentcity=city
-            val res = repository.getData(currentcity) // DataorException<WeatherData, Boolean, Exception>
+            val res = repository.getData(currentcity)
             _uiState.update {
                 it.copy(
                     data = res.data,
