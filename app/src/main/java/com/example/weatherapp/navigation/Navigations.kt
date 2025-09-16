@@ -22,16 +22,26 @@ fun Navigation()
         composable(Screens.SplashScreen.route) {
             SplashScreen(navController)
         }
-        composable(Screens.HomeScreen.route, arguments = listOf(navArgument("city"){
-            NavType.StringType
-        })) {
-            backStackEntry->
+        composable(
+            route = Screens.HomeScreen.route + "?city={city}",
+            arguments = listOf(
+                navArgument("city") {
+                    type = NavType.StringType
+                    defaultValue = "London"
+                    nullable = true
+                }
+            )
+        ) { backStackEntry ->
             val city = backStackEntry.arguments?.getString("city")
-            HomeScreen(navController,city)
+            val vm: Viewmodel = hiltViewModel(backStackEntry)
+            HomeScreen(navController, city,vm)
         }
+
         composable(Screens.DetailScreen.route)
         {
-            DetailScreen(navController)
+            backStackEntry ->
+            val vm: Viewmodel = hiltViewModel(backStackEntry)
+            DetailScreen(navController,vm)
         }
         composable(Screens.SearchScreen.route) {
             val vm:Viewmodel = hiltViewModel()

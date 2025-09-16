@@ -31,10 +31,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,7 +40,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -58,21 +53,16 @@ import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 
 @Composable
-fun HomeScreen(navController: NavController,
-               city: String?,
-               viewModel: Viewmodel = hiltViewModel()
+fun HomeScreen(
+    navController: NavController,
+    city: String?,
+    viewModel: Viewmodel
 ) {
 
-    LaunchedEffect(Unit){
-        if(city!=null)
-        {
-            viewModel.getData(city)
-        }
-        else
-        {
-            viewModel.getData("London")
-        }
+    LaunchedEffect(city) {
+        viewModel.getData(city ?: "London")
     }
+
     val data = viewModel.UiState.collectAsStateWithLifecycle()
 
     Box(modifier= Modifier.fillMaxSize()
