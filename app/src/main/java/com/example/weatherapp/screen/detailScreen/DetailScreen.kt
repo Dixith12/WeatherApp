@@ -39,10 +39,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.weatherapp.R
 import com.example.weatherapp.navigation.Screens
 import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun DetailScreen(
@@ -100,6 +103,12 @@ fun DetailScreen(
     }
 }
 
+fun getDayName(date: String): String {
+    val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val formatter = SimpleDateFormat("EEE", Locale.getDefault()) // Mon, Tue...
+    return formatter.format(parser.parse(date)!!)
+}
+
 @Composable
 fun WeekCard() {
     val n=6
@@ -139,13 +148,16 @@ fun RowCard() {
 
 @Composable
 fun MiddleSection(data: State<UiState>) {
+    val forecast = data.value.data?.forecast?.forecastday
+    val today = forecast?.getOrNull(0)?.day
     Row(verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth())
     {
-        Image(painter = painterResource(id = R.drawable.weatherlogo),
-            contentDescription = "Weather",
-            modifier = Modifier.size(210.dp))
-
+        AsyncImage(
+            model = "https:${today?.condition?.icon}",
+            contentDescription = "Weather Icon",
+            modifier = Modifier.size(210.dp)
+        )
         Column(modifier = Modifier.fillMaxWidth())
         {
             Text("Tommorrow",
@@ -155,13 +167,13 @@ fun MiddleSection(data: State<UiState>) {
             //Annoted String
             Text(buildAnnotatedString {
                 withStyle(style = SpanStyle(color = Color.White, fontSize = 70.sp, fontWeight = FontWeight.Bold)){
-                    append("20")
+                    append("${today?.maxtemp_c?.toInt() ?: "--"}°")
                 }
                 withStyle(style = SpanStyle(color = Color.Gray, fontSize = 45.sp, fontWeight = FontWeight.Bold)){
-                    append("/20°")
+                    append("/${today?.mintemp_c?.toInt() ?: "--"}°")
                 }
             })
-            Text("Sunny",
+            Text(today?.condition?.text ?: "--",
                 color = Color.White,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold)
