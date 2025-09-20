@@ -41,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.weatherapp.R
+import com.example.weatherapp.model.Forecastday
 import com.example.weatherapp.navigation.Screens
 import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
@@ -95,7 +96,7 @@ fun DetailScreen(
                     UpperSection(navController)
                     MiddleSection(data)
                     DetailCards(data)
-                    WeekCard()
+                    WeekCard(data)
                 }
             }
         }
@@ -105,44 +106,60 @@ fun DetailScreen(
 
 fun getDayName(date: String): String {
     val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val formatter = SimpleDateFormat("EEE", Locale.getDefault()) // Mon, Tue...
+    val formatter = SimpleDateFormat("EEE", Locale.getDefault())
     return formatter.format(parser.parse(date)!!)
 }
 
 @Composable
-fun WeekCard() {
-    val n=6
-    for(i in 0..n)
-    {
-        RowCard()
+fun WeekCard(data: State<UiState>) {
+    val forecastDays = data.value.data?.forecast?.forecastday ?: emptyList()
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        forecastDays.take(6).forEach { day ->
+            RowCard(day)
+        }
     }
 }
 
 @Composable
-fun RowCard() {
-    Row(verticalAlignment = Alignment.CenterVertically,
+fun RowCard(day: Forecastday) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()
-            .padding(horizontal = 28.dp))
-    {
-        Text("Mon",
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 28.dp, vertical = 8.dp)
+    ) {
+        // Day name
+        Text(
+            getDayName(day.date),
             color = Color.White,
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp)
-        Row(verticalAlignment = Alignment.CenterVertically)
-        {
-            Image(painter = painterResource(id = R.drawable.weatherlogo),
-                contentDescription = "Image",
-                modifier = Modifier.size(70.dp))
-            Text("Rainy",
+            fontSize = 20.sp
+        )
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            // Weather icon from API
+            AsyncImage(
+                model = "https:${day.day.condition.icon}",
+                contentDescription = "Weather Icon",
+                modifier = Modifier.size(50.dp)
+            )
+            Text(
+                day.day.condition.text,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp)
+                fontSize = 20.sp,
+                modifier = Modifier.padding(start = 8.dp)
+            )
         }
-        Text("+20° +14°",
+
+        Text(
+            "+${day.day.maxtemp_c.toInt()}° / +${day.day.mintemp_c.toInt()}°",
             color = Color.White,
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp)
+            fontSize = 20.sp
+        )
     }
 }
 
