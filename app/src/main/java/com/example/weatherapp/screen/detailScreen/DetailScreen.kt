@@ -1,7 +1,7 @@
 package com.example.weatherapp.screen.detailScreen
 
 
-import androidx.compose.foundation.Image
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,12 +42,14 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.weatherapp.R
 import com.example.weatherapp.model.Forecastday
+import com.example.weatherapp.model.Location
 import com.example.weatherapp.navigation.Screens
 import com.example.weatherapp.screen.uiState.UiState
 import com.example.weatherapp.viewModel.Viewmodel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun DetailScreen(
     navController: NavController,
@@ -55,7 +57,7 @@ fun DetailScreen(
 ) {
 
     val data = viewmodel.UiState.collectAsStateWithLifecycle()
-    val forecast = data.value.data?.forecast?.forecastday
+    val city = viewmodel.UiState.value.data?.location
     Box(modifier= Modifier.fillMaxSize()
         .background(brush = Brush.linearGradient(listOf(
             Color(0xFF2F2383), Color(0xFF443A86), Color(
@@ -90,10 +92,11 @@ fun DetailScreen(
             else ->
             {
                 Column(modifier = Modifier.fillMaxSize()
+                    .padding(top = 20.dp)
                     .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally)
                 {
-                    UpperSection(navController)
+                    UpperSection(navController,city)
                     MiddleSection(data)
                     DetailCards(data)
                     WeekCard(data)
@@ -128,14 +131,14 @@ fun RowCard(day: Forecastday) {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 28.dp, vertical = 8.dp)
+            .padding(horizontal = 20.dp, vertical = 8.dp)
     ) {
         // Day name
         Text(
             getDayName(day.date),
             color = Color.White,
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+            fontSize = 18.sp
         )
 
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -143,13 +146,13 @@ fun RowCard(day: Forecastday) {
             AsyncImage(
                 model = "https:${day.day.condition.icon}",
                 contentDescription = "Weather Icon",
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(47.dp)
             )
             Text(
                 day.day.condition.text,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 modifier = Modifier.padding(start = 8.dp)
             )
         }
@@ -158,7 +161,7 @@ fun RowCard(day: Forecastday) {
             "+${day.day.maxtemp_c.toInt()}° / +${day.day.mintemp_c.toInt()}°",
             color = Color.White,
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+            fontSize = 18.sp
         )
     }
 }
@@ -173,13 +176,14 @@ fun MiddleSection(data: State<UiState>) {
         AsyncImage(
             model = "https:${today?.condition?.icon}",
             contentDescription = "Weather Icon",
-            modifier = Modifier.size(210.dp)
+            modifier = Modifier.size(150.dp)
+                .padding(start = 15.dp)
         )
         Column(modifier = Modifier.fillMaxWidth())
         {
             Text("Tommorrow",
                 color = Color.White,
-                fontSize = 30.sp,
+                fontSize = 26.sp,
                 fontWeight = FontWeight.W400)
             //Annoted String
             Text(buildAnnotatedString {
@@ -192,14 +196,14 @@ fun MiddleSection(data: State<UiState>) {
             })
             Text(today?.condition?.text ?: "--",
                 color = Color.White,
-                fontSize = 25.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Bold)
         }
     }
 }
 
 @Composable
-fun UpperSection(navController: NavController) {
+fun UpperSection(navController: NavController, city: Location?) {
     Row(modifier = Modifier.fillMaxWidth()
         .padding(top = 30.dp, start = 10.dp, end = 10.dp, bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically)
@@ -209,7 +213,7 @@ fun UpperSection(navController: NavController) {
                 modifier = Modifier.size(45.dp)
                     .padding(top = 10.dp, bottom = 10.dp, start = 13.dp, end = 8.dp)
                     .clickable {
-                        navController.navigate(Screens.HomeScreen.route)
+                        navController.navigate(Screens.HomeScreen.passCity(city.toString()))
                     },
                 tint = Color.White)
         Row(verticalAlignment = Alignment.CenterVertically,
@@ -221,7 +225,7 @@ fun UpperSection(navController: NavController) {
                 modifier = Modifier
                     .padding(end = 10.dp)
                     .size(42.dp))
-            Text("7 days",
+            Text("3 days",
                 color = Color.White,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold)

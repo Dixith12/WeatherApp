@@ -58,7 +58,7 @@ fun WeatherSplash(navController: NavHostController) {
         fontWeight = FontWeight.W400)
     Button(colors = ButtonDefaults.buttonColors(Color(0xFFEED019)),
         onClick = {
-                navController.navigate(Screens.HomeScreen.route)
+                navController.navigate(Screens.HomeScreen.passCity("London"))
                 {
                     popUpTo(Screens.SplashScreen.route){
                         inclusive=true

@@ -161,10 +161,13 @@ fun HomeScreenContent(data: State<UiState>, navController: NavController, viewMo
                     isalready=!isalready
                     val fav = current?.let {
                         forecast?.forecastday?.get(0)?.day?.let { it1 ->
-                            Fav(location.toString(),
-                                it1.mintemp_c,
-                                forecast.forecastday[0].day.maxtemp_c,
-                                it.temp_c)
+                            location?.let { it2 ->
+                                Fav(
+                                    it2.name,
+                                    it1.mintemp_c,
+                                    forecast.forecastday[0].day.maxtemp_c,
+                                    it.temp_c)
+                            }
                         }
                     }
                     if (fav != null) {
@@ -301,7 +304,7 @@ fun Sevendays(weather: List<Hour>, navController: NavController, city: Location?
               navController.navigate(Screens.DetailScreen.route)
             })
         {
-            Text("7 Days  ",
+            Text("3 Days  ",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White)
